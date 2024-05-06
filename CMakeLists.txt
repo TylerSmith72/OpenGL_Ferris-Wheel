@@ -11,8 +11,8 @@ add_library(GLAD "Dependencies/glad/src/glad.c")
 target_include_directories(GLAD PRIVATE "Dependencies/glad/include")
 
 # Add Assimp
-#add_subdirectory(Dependencies/assimp)
-#include_directories(Dependencies/assimp/include)
+add_subdirectory(Dependencies/assimp-master)
+include_directories(Dependencies/assimp-master/include)
 
 include_directories(Cameras)
 include_directories(Shaders)

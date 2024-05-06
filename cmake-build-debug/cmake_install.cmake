@@ -40,6 +40,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/cmake-build-debug/Dependencies/glfw-3.4/cmake_install.cmake")
+  include("C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/cmake-build-debug/Dependencies/assimp-master/cmake_install.cmake")
 
 endif()
 

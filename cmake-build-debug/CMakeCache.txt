@@ -121,15 +121,15 @@ ASSIMP_UBSAN:BOOL=OFF
 ASSIMP_WARNINGS_AS_ERRORS:BOOL=ON
 
 //Value Computed by CMake
-Assimp_BINARY_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/cmake-build-debug/Dependencies/assimp
+Assimp_BINARY_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/cmake-build-debug/Dependencies/assimp-master
 
 //Value Computed by CMake
 Assimp_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-Assimp_SOURCE_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/Dependencies/assimp
+Assimp_SOURCE_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/Dependencies/assimp-master
 
-//Build shared libraries
+//Build package with shared libraries.
 BUILD_SHARED_LIBS:BOOL=OFF
 
 //Path to a program.
@@ -288,7 +288,7 @@ CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 CMAKE_LINKER:FILEPATH=C:/Program Files/JetBrains/CLion 2023.3.4/bin/mingw/bin/ld.exe
 
 //make program
-CMAKE_MAKE_PROGRAM:FILEPATH=C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/ninja/win/x64/ninja.exe
+CMAKE_MAKE_PROGRAM:FILEPATH=C:/Program Files/JetBrains/CLion 2023.3.4/bin/ninja/win/x64/ninja.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -473,13 +473,13 @@ Main_Project_IS_TOP_LEVEL:STATIC=ON
 Main_Project_SOURCE_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project
 
 //Value Computed by CMake
-zlib_BINARY_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/cmake-build-debug/Dependencies/assimp/contrib/zlib
+zlib_BINARY_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/cmake-build-debug/Dependencies/assimp-master/contrib/zlib
 
 //Value Computed by CMake
 zlib_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-zlib_SOURCE_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/Dependencies/assimp/contrib/zlib
+zlib_SOURCE_DIR:STATIC=C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/Dependencies/assimp-master/contrib/zlib
 
 
 ########################
@@ -626,7 +626,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -1,0 +1,299 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				},
+				{
+					"build" : "Dependencies/glfw-3.4",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Dependencies.glfw-3.4-Debug-2b590c4003cfaad064f8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "Dependencies/glfw-3.4",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Dependencies/glfw-3.4/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Dependencies.glfw-3.4.src-Debug-175707c78c50f4451b02.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "Dependencies/glfw-3.4/src",
+					"targetIndexes" : 
+					[
+						3,
+						6
+					]
+				},
+				{
+					"build" : "Dependencies/glfw-3.4/docs",
+					"jsonFile" : "directory-Dependencies.glfw-3.4.docs-Debug-605f2705d20b68fdbe65.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "Dependencies/glfw-3.4/docs"
+				},
+				{
+					"build" : "Dependencies/assimp-master",
+					"childIndexes" : 
+					[
+						5,
+						6,
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Dependencies.assimp-master-Debug-4b83c93133a7c7e16ea9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.22"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "Dependencies/assimp-master"
+				},
+				{
+					"build" : "Dependencies/assimp-master/contrib/zlib",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Dependencies.assimp-master.contrib.zlib-Debug-c812f59445b4278484d2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 3,
+					"source" : "Dependencies/assimp-master/contrib/zlib",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "Dependencies/assimp-master/code",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-Dependencies.assimp-master.code-Debug-ad425197d5240257b0db.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.22"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Dependencies/assimp-master/code",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "Dependencies/assimp-master/test",
+					"childIndexes" : 
+					[
+						8
+					],
+					"jsonFile" : "directory-Dependencies.assimp-master.test-Debug-b5dba58d861b41f4d030.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "Dependencies/assimp-master/test",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "Dependencies/assimp-master/test/headercheck",
+					"jsonFile" : "directory-Dependencies.assimp-master.test.headercheck-Debug-4d08e7b6091122c3f930.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 2,
+					"source" : "Dependencies/assimp-master/test/headercheck"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Main_Project",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"name" : "GLFW",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						4,
+						6
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						3
+					],
+					"directoryIndexes" : 
+					[
+						4,
+						6,
+						7,
+						8
+					],
+					"name" : "Assimp",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "zlib",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						7
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "GLAD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-GLAD-Debug-84f87bc8ba8345d70dfe.json",
+					"name" : "GLAD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Main_Project::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Main_Project-Debug-1249421cd5032213e9b8.json",
+					"name" : "Main_Project",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "assimp::@8e72de805d6c7fe188e5",
+					"jsonFile" : "target-assimp-Debug-c5427174d17bb823f926.json",
+					"name" : "assimp",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "glfw::@9d6728eb26d962778b1c",
+					"jsonFile" : "target-glfw-Debug-5784088b19a22db13c50.json",
+					"name" : "glfw",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uninstall::@95dcb7f24744bb04f6d6",
+					"jsonFile" : "target-uninstall-Debug-b185151f814518bd733e.json",
+					"name" : "uninstall",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "unit::@974e4c8eb23d10e574fc",
+					"jsonFile" : "target-unit-Debug-f3dfd25fc9ec77b52174.json",
+					"name" : "unit",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "update_mappings::@9d6728eb26d962778b1c",
+					"jsonFile" : "target-update_mappings-Debug-77a507345278c3f6a962.json",
+					"name" : "update_mappings",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "zlibstatic::@69e60cdfdc425b4d0ffa",
+					"jsonFile" : "target-zlibstatic-Debug-a423862c9a07705bc4ee.json",
+					"name" : "zlibstatic",
+					"projectIndex" : 3
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project/cmake-build-debug",
+		"source" : "C:/Users/Bobal/Nextcloud/Documents/University/Year 2/Coursework/Graphics/Main_Project"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

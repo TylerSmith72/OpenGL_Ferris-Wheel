@@ -16,6 +16,7 @@ include_directories(Dependencies/assimp-master/include)
 
 include_directories(Cameras)
 include_directories(Shaders)
+include_directories(Meshes)
 
 # Add executable
 add_executable(Main_Project

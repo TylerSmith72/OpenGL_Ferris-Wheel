@@ -17,16 +17,11 @@ include_directories(Dependencies/assimp-master/include)
 include_directories(Cameras)
 include_directories(Shaders)
 include_directories(Meshes)
+include_directories(Models)
 
 # Add executable
 add_executable(Main_Project
         main.cpp
-#        Shaders/4.6.shader.vs  # Add the vertex shader file
-#        Shaders/4.6.shader.fs  # Add the fragment shader file
-#        Shaders/old.light.shader.vs
-#        Shaders/old.light.shader.fs
-#        Shaders/light.cube.shader.vs
-#        Shaders/light.cube.shader.fs
 )
 
 # Include GLFW, GLAD, GLM and STB_IMAGE headers
@@ -47,6 +42,8 @@ set(SHADER_FILES
         Shaders/light.spot.shader.fs
         Shaders/light.multiple.shader.fs
         Shaders/light.multiple.shader.vs
+        Shaders/light.model_loading.vs
+        Shaders/light.model_loading.fs
         Shaders/light.cube.shader.vs
         Shaders/light.cube.shader.fs
 )
@@ -66,6 +63,16 @@ set(IMAGE_FILES
 foreach(IMAGE_FILE ${IMAGE_FILES})
     configure_file(${IMAGE_FILE} ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${IMAGE_FILE} COPYONLY)
 endforeach()
+
+# Copy model files to build directory
+file(GLOB_RECURSE MODEL_FILES "${CMAKE_SOURCE_DIR}/Resources/Models/*")
+foreach(MODEL_FILE ${MODEL_FILES})
+    file(RELATIVE_PATH RELATIVE_PATH "${CMAKE_SOURCE_DIR}" ${MODEL_FILE})
+    configure_file(${MODEL_FILE} ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${RELATIVE_PATH} COPYONLY)
+endforeach()
+
+
+
 
 
 # Link libraries

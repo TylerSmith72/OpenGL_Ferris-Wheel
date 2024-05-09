@@ -1,3 +1,4 @@
 /Dependencies/assimp-master/
 /cmake-build-debug/
 cmake-build-debug/Dependencies/assimp/lib/libassimpd.a
+/cmake-build-release/

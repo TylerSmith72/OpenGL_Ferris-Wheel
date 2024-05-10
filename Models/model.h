@@ -41,11 +41,6 @@ private:
         Assimp::Importer import;
         //const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
         const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-        cout << scene << endl;
-        cout << scene -> mFlags << endl;
-        cout << AI_SCENE_FLAGS_INCOMPLETE << endl;
-        cout << !scene -> mRootNode << endl;
-        cout << path << endl;
 
         // Check scene is not NULL or incomplete
         if(!scene || scene -> mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene -> mRootNode){

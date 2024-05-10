@@ -42,7 +42,7 @@ struct SpotLight {
     vec3 specular;
 };
 
-#define NR_POINT_LIGHTS 4
+#define NR_POINT_LIGHTS 1
 
 
 in vec3 Normal;
@@ -74,6 +74,8 @@ void main()
 
     // Spot
     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+
+    result *= texture(material.diffuse, TexCoords).rgb;
 
     FragColor = vec4(result, 1.0);
 }

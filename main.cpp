@@ -10,6 +10,8 @@
 
 #include "shader_s.h"
 #include "camera.h"
+#include "fixedCamera.h"
+#include "orbitCamera.h"
 #include "model.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -27,13 +29,20 @@ unsigned int loadTexture(const char *path);
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
 
-// Camera
+// Cameras
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+FixedCamera fixedCamera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+OrbitCamera orbitCamera(glm::vec3(0.0f, 0.0f, 0.0f), 5.0f);
+
+Camera* currentCamera = &camera;  // Start with the fixed camera
+
 float lastX = SCR_WIDTH  / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
+bool key0Pressed = false;
 
 float cameraSpeed = 5.0f;
+float radiusSpeed = 5.0f;
 const float sensitivity = 0.5f;
 
 // Torch
@@ -120,13 +129,13 @@ int main() {
 
         // Start Shader
         ourShader.use();
-        ourShader.setVec3("viewPos", camera.Position);
+        ourShader.setVec3("viewPos", currentCamera->Position);
         ourShader.setFloat("material.shininess", 32.0f);
 
 
         // View and Projection Transformation
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        glm::mat4 view = camera.GetViewMatrix();
+        glm::mat4 projection = glm::perspective(glm::radians(currentCamera->Fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = currentCamera->GetViewMatrix();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
 
@@ -146,8 +155,8 @@ int main() {
         ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // Spotlight (Torch)
-        ourShader.setVec3("spotLight.position", camera.Position);
-        ourShader.setVec3("spotLight.direction", camera.Front);
+        ourShader.setVec3("spotLight.position", currentCamera->Position);
+        ourShader.setVec3("spotLight.direction", currentCamera->Front);
         ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
         ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
         ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
@@ -179,48 +188,94 @@ void processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
     }
 
-    // Camera: Sprint
-    if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS){
-        camera.MovementSpeed = cameraSpeed * 2;
-    }
-    if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE){
-        camera.MovementSpeed = cameraSpeed;
+    // Switching Cameras
+    if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
+        key0Pressed = true;
+    } else if (key0Pressed) {
+        if (currentCamera == &camera) {
+            currentCamera = &fixedCamera;
+        } else if (currentCamera == &fixedCamera) {
+            currentCamera = &orbitCamera;
+        } else {
+            currentCamera = &camera;
+        }
+
+        key0Pressed = false;
     }
 
-    // Camera: Move
-    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
-        camera.ProcessKeyboard(FORWARD, deltaTime);
-    }
-    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
-    }
-    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-        camera.ProcessKeyboard(LEFT, deltaTime);
-    }
-    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
-        camera.ProcessKeyboard(RIGHT, deltaTime);
-    }
+    if(currentCamera == &camera){
+        // Camera: Move
+        if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+            currentCamera->ProcessKeyboard(FORWARD, deltaTime);
+        }
+        if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+            currentCamera->ProcessKeyboard(BACKWARD, deltaTime);
+        }
+        if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+            currentCamera->ProcessKeyboard(LEFT, deltaTime);
+        }
+        if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+            currentCamera->ProcessKeyboard(RIGHT, deltaTime);
+        }
 
-    // Camera: Up - Down
-    if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS){
-        camera.ProcessKeyboard(UP, deltaTime);
-    }
-    if(glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS){
-        camera.ProcessKeyboard(DOWN, deltaTime);
-    }
+        // Sprinting
+        if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS){
+            currentCamera->MovementSpeed = cameraSpeed * 2;
+        }
+        if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE){
+            currentCamera->MovementSpeed = cameraSpeed;
+        }
 
-    // Torch
-    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
-    {
-        if(!torchKeyPress)
+        // Camera: Up - Down
+        if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS){
+            currentCamera->ProcessKeyboard(UP, deltaTime);
+        }
+        if(glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS){
+            currentCamera->ProcessKeyboard(DOWN, deltaTime);
+        }
+
+        // Torch
+        if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
         {
-            spotLightOn = !spotLightOn;
-            torchKeyPress = true;
+            if(!torchKeyPress)
+            {
+                spotLightOn = !spotLightOn;
+                torchKeyPress = true;
+            }
+        }
+        else if (glfwGetKey(window, GLFW_KEY_T) == GLFW_RELEASE)
+        {
+            torchKeyPress = false;
         }
     }
-    else if (glfwGetKey(window, GLFW_KEY_T) == GLFW_RELEASE)
-    {
-        torchKeyPress = false;
+
+    if(currentCamera == &orbitCamera){
+        OrbitCamera* orbitPtr = dynamic_cast<OrbitCamera*>(currentCamera);
+        if (orbitPtr) {
+            if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ){
+                orbitPtr->moveAroundCenter(deltaTime * 2);
+            }
+
+            if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE ){
+                orbitPtr->moveAroundCenter(deltaTime);
+            }
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+            orbitCamera.moveUp(deltaTime * cameraSpeed);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+            orbitCamera.moveDown(deltaTime * cameraSpeed);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+            orbitCamera.increaseRadius(deltaTime * radiusSpeed);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+            orbitCamera.decreaseRadius(deltaTime * radiusSpeed);
+        }
     }
 }
 
@@ -230,69 +285,35 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn){
-    float xpos = static_cast<float>(xposIn);
-    float ypos = static_cast<float>(yposIn);
+    if(currentCamera == &camera){
+        float xpos = static_cast<float>(xposIn);
+        float ypos = static_cast<float>(yposIn);
 
-    if (firstMouse)
-    {
+        if (firstMouse)
+        {
+            lastX = xpos;
+            lastY = ypos;
+            firstMouse = false;
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
         lastX = xpos;
         lastY = ypos;
-        firstMouse = false;
+
+        xoffset *= sensitivity;
+        yoffset *= sensitivity;
+
+        currentCamera->ProcessMouseMovement(xoffset, yoffset);
     }
-
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
-
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
-
-    camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
-    camera.ProcessMouseScroll(static_cast<float>(yoffset), window);
+    currentCamera->ProcessMouseScroll(static_cast<float>(yoffset), window);
 }
 
 void zoom_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
-    camera.ProcessZoom(key, action);
+    currentCamera->ProcessZoom(key, action);
 }
 
-unsigned int loadTexture(char const * path)
-{
-    unsigned int textureID;
-    glGenTextures(1, &textureID);
-
-    int width, height, nrComponents;
-    unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
-    if (data)
-    {
-        GLenum format;
-        if (nrComponents == 1)
-            format = GL_RED;
-        else if (nrComponents == 3)
-            format = GL_RGB;
-        else if (nrComponents == 4)
-            format = GL_RGBA;
-
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        stbi_image_free(data);
-    }
-    else
-    {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
-        stbi_image_free(data);
-    }
-
-    return textureID;
-}
 

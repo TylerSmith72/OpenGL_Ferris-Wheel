@@ -1,0 +1,38 @@
+# Blender 4.1.1 MTL File: 'untitled.blend'
+# www.blender.org
+
+newmtl Material.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.042857 0.042857 0.042857
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd diffuse.png
+map_bump -bm 1.000000 normal.png
+map_Ks specular.png
+
+newmtl Material.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.094286 0.094286 0.094286
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 1K-metal_rust_2-diffuse.jpg
+map_bump -bm 1.000000 1K-metal_rust_2-normal.jpg
+map_Ks 1K-metal_rust_2-specular.jpg
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.114286 0.114286 0.114286
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 1K-metal_5-diffuse.jpg
+map_bump -bm 1.000000 1K-metal_5-normal.jpg
+map_Ks 1K-metal_5-specular.jpg

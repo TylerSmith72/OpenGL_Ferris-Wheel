@@ -93,11 +93,11 @@ int main() {
 
     //Shader ourShader("Shaders/light.model_loading.vs", "Shaders/light.model_loading.fs");
     Shader ourShader("Shaders/light.multiple.shader.vs", "Shaders/light.multiple.shader.fs");
-    Model ourModel("Resources/Models/backpack/backpack.obj");
     //Model ourModel("Resources/Models/backpack/backpack.obj");
+    Model ourModel("Resources/Models/ferris wheel base/ferris wheel base.obj");
 
     // Set light properties
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+    glm::vec3 lightPos(5.0f, 4.0f, 2.0f);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f); // white light
 
 
@@ -130,7 +130,7 @@ int main() {
         // Start Shader
         ourShader.use();
         ourShader.setVec3("viewPos", currentCamera->Position);
-        ourShader.setFloat("material.shininess", 32.0f);
+        ourShader.setFloat("material.shininess", 64.0f);
 
 
         // View and Projection Transformation

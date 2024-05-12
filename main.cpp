@@ -30,8 +30,8 @@ const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
 
 // Cameras
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-FixedCamera fixedCamera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+Camera camera(glm::vec3(0.0f, 10.0f, 0.0f));
+FixedCamera fixedCamera(glm::vec3(10.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 OrbitCamera orbitCamera(glm::vec3(0.0f, 0.0f, 0.0f), 5.0f);
 
 Camera* currentCamera = &camera;  // Start with the fixed camera
@@ -49,12 +49,18 @@ const float sensitivity = 0.5f;
 bool spotLightOn = false;
 bool torchKeyPress = false;
 
+// Ride Settings
+float rideSpeed = 5.0f;
+bool rideStart = false;
+bool keyEPressed = false;
+float rideRadius = 12.0f;
+float rideHeight = 18.0f;
+glm::vec3 rideCenter = glm::vec3(0.0f, 18.0f, 0.0f);
+float theta = 0.0f;
+
 // Timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-
-// Lighting
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 int main() {
     glfwInit();
@@ -63,7 +69,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Create window in OS
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Ferris Wheel", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -90,15 +96,31 @@ int main() {
     stbi_set_flip_vertically_on_load(true);
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     //Shader ourShader("Shaders/light.model_loading.vs", "Shaders/light.model_loading.fs");
     Shader ourShader("Shaders/light.multiple.shader.vs", "Shaders/light.multiple.shader.fs");
     //Model ourModel("Resources/Models/backpack/backpack.obj");
     Model base("Resources/Models/ferris_wheel_base/ferris_wheel_base.obj");
     Model wheel("Resources/Models/ferris_wheel/ferris_wheel.obj");
+    Model cube1("Resources/Models/container/container.obj");
+    Model cube2("Resources/Models/container/container.obj");
+    Model cube3("Resources/Models/container/container.obj");
+
+    base.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+    wheel.setPosition(glm::vec3(0.0f, 18.0f, 0.0f));
+    wheel.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+
+    cube1.setPosition(glm::vec3(10.0f, 2.5f, 10.0f));
+    cube2.setPosition(glm::vec3(4.0f, 2.5f, 3.0f));
+    cube3.setPosition(glm::vec3(-4.0f, 2.5f, -2.0f));
+
+    orbitCamera.setRadius(30.0f);
+    orbitCamera.setHeight(30.0f);
 
     // Set light properties
-    glm::vec3 lightPos(5.0f, 4.0f, 2.0f);
+    glm::vec3 lightPos(5.0f, 0.0f, 0.0f);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f); // white light
 
 
@@ -131,7 +153,7 @@ int main() {
         // Start Shader
         ourShader.use();
         ourShader.setVec3("viewPos", currentCamera->Position);
-        ourShader.setFloat("material.shininess", 64.0f);
+        ourShader.setFloat("material.shininess", 32.0f);
 
 
         // View and Projection Transformation
@@ -146,8 +168,15 @@ int main() {
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
         ourShader.setMat4("model", model);
 
+        if(rideStart){
+            wheel.rotate(glm::vec3(rideSpeed * deltaTime, 0.0f, 0.0f));
+        }
+
         base.Draw(ourShader);
         wheel.Draw(ourShader);
+        cube1.Draw(ourShader);
+        cube2.Draw(ourShader);
+        cube3.Draw(ourShader);
 
         // LIGHTS //
 
@@ -161,7 +190,7 @@ int main() {
         ourShader.setVec3("spotLight.position", currentCamera->Position);
         ourShader.setVec3("spotLight.direction", currentCamera->Front);
         ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-        ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+        ourShader.setVec3("spotLight.diffuse", 3.0f, 3.0f, 3.0f);
         ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
         ourShader.setFloat("spotLight.constant", 1.0f);
         ourShader.setFloat("spotLight.linear", 0.09f);
@@ -189,6 +218,20 @@ void processInput(GLFWwindow *window)
     // Exit
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
+    }
+
+    // Start-Stop Ride
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        if(!keyEPressed)
+        {
+            rideStart = !rideStart;
+            keyEPressed = true;
+        }
+    }
+    else if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE)
+    {
+        keyEPressed = false;
     }
 
     // Switching Cameras
@@ -278,6 +321,22 @@ void processInput(GLFWwindow *window)
 
         if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
             orbitCamera.decreaseRadius(deltaTime * radiusSpeed);
+        }
+    }
+
+    if(currentCamera == &fixedCamera){
+        if(rideStart){
+            FixedCamera* fixedPtr = dynamic_cast<FixedCamera*>(currentCamera);
+            if(fixedPtr){
+                float angularSpeed = rideSpeed / rideRadius; // Angular Speed
+                theta += deltaTime * (angularSpeed / 4.2);
+                glm::vec3 lookAt;
+                lookAt.x = 0.0f;
+                lookAt.y = rideCenter.y + rideRadius * sin(-theta);
+                lookAt.z = rideCenter.z + rideRadius * cos(-theta);
+
+                fixedPtr->setLookAt(lookAt);
+            }
         }
     }
 }

@@ -34,6 +34,17 @@ public:
     }
 
     void Draw(Shader &shader){
+        // Create transformation matrix
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, position); // Move the model to its position
+        model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotate the model around the x-axis
+        model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate the model around the y-axis
+        model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotate the model around the z-axis
+
+        // Pass the transformation matrix to the shader
+        shader.setMat4("model", model);
+
+        // Draw Model
         for(unsigned int i = 0; i < meshes.size(); i++){
             meshes[i].Draw(shader);
         }
@@ -145,6 +156,10 @@ private:
 
             vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+            vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "normal");
+            textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+
         }
 
         return Mesh(vertices, indices, textures);

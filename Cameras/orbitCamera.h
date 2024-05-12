@@ -44,6 +44,14 @@ public:
         }
     }
 
+    void setRadius(float radius){
+        m_radius = radius;
+    }
+
+    void setHeight(float height){
+        m_center.y = height;
+    }
+
 private:
     glm::vec3 m_center;
     glm::vec3 m_position;

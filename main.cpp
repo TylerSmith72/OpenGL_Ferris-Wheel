@@ -112,9 +112,9 @@ int main() {
     wheel.setPosition(glm::vec3(0.0f, 18.0f, 0.0f));
     wheel.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
 
-    cube1.setPosition(glm::vec3(10.0f, 2.5f, 10.0f));
-    cube2.setPosition(glm::vec3(4.0f, 2.5f, 3.0f));
-    cube3.setPosition(glm::vec3(-4.0f, 2.5f, -2.0f));
+    cube1.setPosition(glm::vec3(10.0f, 3.0f, 10.0f));
+    cube2.setPosition(glm::vec3(4.0f, 3.0f, 3.0f));
+    cube3.setPosition(glm::vec3(-4.0f, 3.0f, -2.0f));
 
     orbitCamera.setRadius(30.0f);
     orbitCamera.setHeight(30.0f);

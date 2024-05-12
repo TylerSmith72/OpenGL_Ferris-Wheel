@@ -26,6 +26,9 @@ public:
     vector<Texture> textures_loaded;
     string directory;
 
+    glm::vec3 position;
+    glm::vec3 rotation;
+
     Model(string const &path){
         loadModel(path);
     }
@@ -34,6 +37,26 @@ public:
         for(unsigned int i = 0; i < meshes.size(); i++){
             meshes[i].Draw(shader);
         }
+    }
+
+    void setPosition(const glm::vec3& newPosition) {
+        position = newPosition;
+    }
+
+    glm::vec3 getPosition() const {
+        return position;
+    }
+
+    void setRotation(const glm::vec3& newRotation) {
+        rotation = newRotation;
+    }
+
+    glm::vec3 getRotation() const {
+        return rotation;
+    }
+
+    void rotate(const glm::vec3& deltaRotation) {
+        rotation += deltaRotation;
     }
 
 private:

@@ -94,7 +94,8 @@ int main() {
     //Shader ourShader("Shaders/light.model_loading.vs", "Shaders/light.model_loading.fs");
     Shader ourShader("Shaders/light.multiple.shader.vs", "Shaders/light.multiple.shader.fs");
     //Model ourModel("Resources/Models/backpack/backpack.obj");
-    Model ourModel("Resources/Models/ferris wheel base/ferris wheel base.obj");
+    Model base("Resources/Models/ferris_wheel_base/ferris_wheel_base.obj");
+    Model wheel("Resources/Models/ferris_wheel/ferris_wheel.obj");
 
     // Set light properties
     glm::vec3 lightPos(5.0f, 4.0f, 2.0f);
@@ -144,7 +145,9 @@ int main() {
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
         ourShader.setMat4("model", model);
-        ourModel.Draw(ourShader);
+
+        base.Draw(ourShader);
+        wheel.Draw(ourShader);
 
         // LIGHTS //
 

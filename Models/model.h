@@ -157,8 +157,8 @@ private:
             vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-            vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "normal");
-            textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+//            vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "normal");
+//            textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
         }
 

@@ -86,10 +86,6 @@ void main()
     //result *= texture(material.diffuse, TexCoords).rgb;
     //result *= texture(material.specular, TexCoords).rgb;
 
-//     if(hasTexture){
-//         result *= texture(material.diffuse, TexCoords).rgb;
-//         result *= texture(material.specular, TexCoords).rgb;
-//     }
     FragColor = vec4(result, 1.0);
 }
 

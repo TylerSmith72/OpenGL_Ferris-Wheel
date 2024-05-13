@@ -29,8 +29,17 @@ public:
     glm::vec3 position;
     glm::vec3 rotation;
 
-    Model(string const &path){
+    Model(string const &path) : position(0.0f), rotation(0.0f){
         loadModel(path);
+    }
+
+    bool hasTexture() const {
+        for (const auto& mesh : meshes) {
+            if (!mesh.textures.empty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     void Draw(Shader &shader){
@@ -151,13 +160,17 @@ private:
         if(mesh -> mMaterialIndex >= 0){
             aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
-            vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse");
-            textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+            if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+                vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse");
+                textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+            }
 
-            vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
-            textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+            if (material->GetTextureCount(aiTextureType_SPECULAR) > 0) {
+                vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
+                textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+            }
 
-//            vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "normal");
+//            vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "normal");
 //            textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
         }

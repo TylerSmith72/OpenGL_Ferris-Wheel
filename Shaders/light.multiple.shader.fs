@@ -4,6 +4,7 @@ out vec4 FragColor;
 struct Material{
     sampler2D diffuse;
     sampler2D specular;
+    //sampler2D normal;
     float shininess;
 };
 
@@ -42,18 +43,21 @@ struct SpotLight {
     vec3 specular;
 };
 
-#define NR_POINT_LIGHTS 1
+#define NR_POINT_LIGHTS 4
 
 
 in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoords;
+//in mat3 TBN;
 
 uniform vec3 viewPos;
 uniform DirLight dirLight;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform SpotLight spotLight;
+uniform SpotLight spotLightRide;
+uniform SpotLight spotLightTorch;
 uniform Material material;
+uniform bool hasTexture;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
@@ -62,6 +66,9 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 void main()
 {
     vec3 norm = normalize(Normal);
+//     vec3 norm = texture(material.normal, TexCoords).rgb;
+//     norm = norm * 2.0 - 1.0;
+//     vec3 worldNormal = normalize(TBN * norm);
     vec3 viewDir = normalize(viewPos - FragPos);
 
     // Directional
@@ -72,11 +79,17 @@ void main()
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
     }
 
-    // Spot
-    result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+    // Spotlights
+    result += CalcSpotLight(spotLightRide, norm, FragPos, viewDir);
+    result += CalcSpotLight(spotLightTorch, norm, FragPos, viewDir);
 
-    result *= texture(material.diffuse, TexCoords).rgb;
+    //result *= texture(material.diffuse, TexCoords).rgb;
+    //result *= texture(material.specular, TexCoords).rgb;
 
+//     if(hasTexture){
+//         result *= texture(material.diffuse, TexCoords).rgb;
+//         result *= texture(material.specular, TexCoords).rgb;
+//     }
     FragColor = vec4(result, 1.0);
 }
 

@@ -58,6 +58,7 @@ set(IMAGE_FILES
         Resources/Textures/container2.png
         Resources/Textures/container2_specular.png
         Resources/Textures/awesomeface.png
+        Resources/Textures/default.png
 )
 
 foreach(IMAGE_FILE ${IMAGE_FILES})

@@ -76,6 +76,10 @@ public:
         return glm::lookAt(Position, Position + Front, Up);
     }
 
+    void setPosition(const glm::vec3& position) {
+        Position = position;
+    }
+
     void ProcessKeyboard(Camera_Movement direction, float deltaTime){
         float velocity = MovementSpeed * deltaTime;
         if (direction == FORWARD) {
@@ -98,7 +102,7 @@ public:
         }
     }
 
-    void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true){
+    virtual void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true){
         xoffset *= MouseSensitivity;
         yoffset *= MouseSensitivity;
 

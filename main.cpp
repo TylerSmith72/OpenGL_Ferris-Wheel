@@ -67,6 +67,9 @@ float rideFixedCamAngle = 0.0f;
 // Timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+float m_secondCounter;
+float m_tempFps;
+float fps;
 
 int main() {
     glfwInit();
@@ -198,6 +201,21 @@ int main() {
         float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+
+        if (m_secondCounter <= 1) {
+            m_secondCounter += deltaTime;
+            m_tempFps++;
+        }
+        else
+        {
+            //"fps" are the actual fps
+            fps = m_tempFps;
+            m_secondCounter = 0;
+            m_tempFps = 0;
+        }
+
+        //Do something with the fps
+        std::cout << "FPS: " << fps << std::endl;
 
         // Input
         processInput(window);

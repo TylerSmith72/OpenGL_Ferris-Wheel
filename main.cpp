@@ -172,14 +172,6 @@ int main() {
         containers[i].setRotation(containerRot[i]);
     }
 
-
-    // Lights
-//    std::vector<glm::vec3> lightPos = {
-//            glm::vec3(10.0f, 6.0f, 10.0f),
-//            glm::vec3(10.0f, 6.0f, -10.0f),
-//            glm::vec3(-10.0f, 6.0f, 10.0f),
-//            glm::vec3(-10.0f, 6.0f, -10.0f)
-//    };
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f); // white light
 
     // Point Lights

@@ -170,9 +170,6 @@ private:
                 textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
             }
 
-//            vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "normal");
-//            textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-
         }
 
         return Mesh(vertices, indices, textures);

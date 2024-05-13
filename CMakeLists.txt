@@ -40,19 +40,6 @@ foreach(SHADER_FILE ${SHADER_FILES})
     configure_file(${SHADER_FILE} ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${SHADER_FILE} COPYONLY)
 endforeach()
 
-## Copy image files to build directory
-#set(IMAGE_FILES
-#        Resources/Textures/container.jpg
-#        Resources/Textures/container2.png
-#        Resources/Textures/container2_specular.png
-#        Resources/Textures/awesomeface.png
-#        Resources/Textures/default.png
-#)
-#
-#foreach(IMAGE_FILE ${IMAGE_FILES})
-#    configure_file(${IMAGE_FILE} ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${IMAGE_FILE} COPYONLY)
-#endforeach()
-
 # Copy model files to build directory
 file(GLOB_RECURSE MODEL_FILES "${CMAKE_SOURCE_DIR}/Resources/Models/*")
 foreach(MODEL_FILE ${MODEL_FILES})

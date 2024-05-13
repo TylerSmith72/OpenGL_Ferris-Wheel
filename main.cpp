@@ -174,21 +174,21 @@ int main() {
 
 
     // Lights
-    std::vector<glm::vec3> lightPos = {
-            glm::vec3(10.0f, 6.0f, 10.0f),
-            glm::vec3(10.0f, 6.0f, -10.0f),
-            glm::vec3(-10.0f, 6.0f, 10.0f),
-            glm::vec3(-10.0f, 6.0f, -10.0f)
-    };
+//    std::vector<glm::vec3> lightPos = {
+//            glm::vec3(10.0f, 6.0f, 10.0f),
+//            glm::vec3(10.0f, 6.0f, -10.0f),
+//            glm::vec3(-10.0f, 6.0f, 10.0f),
+//            glm::vec3(-10.0f, 6.0f, -10.0f)
+//    };
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f); // white light
 
     // Point Lights
     ourShader.use();
-    for (int i = 0; i < lightPos.size(); i++) {
+    for (int i = 0; i < cartPos.size(); i++) {
         std::string base = "pointLights[" + std::to_string(i) + "]";
-        ourShader.setVec3(base + ".position", lightPos[i]);
+        ourShader.setVec3(base + ".position", cartPos[i]);
         ourShader.setVec3(base + ".ambient", 0.1f * lightColor);
-        ourShader.setVec3(base + ".diffuse", 0.5f * lightColor);
+        ourShader.setVec3(base + ".diffuse", 0.8f * lightColor);
         ourShader.setVec3(base + ".specular", 1.0f * lightColor);
         ourShader.setFloat(base + ".constant", 1.0f);
         ourShader.setFloat(base + ".linear", 0.09f);
@@ -240,15 +240,17 @@ int main() {
         }
 
         // Move Carts
-        for (int i = 0; i < lightPos.size(); i++){
+        for (int i = 0; i < cartPos.size(); i++){
+            std::string base = "pointLights[" + std::to_string(i) + "]";
             if(rideStart){
-                float angularSpeed = rideSpeed / rideRadius; // Angular Speed
                 cartAngles[i] += deltaTime * rideSpeed;
 
                 glm::vec3 cartPosition;
                 cartPosition.x = 0.0f;
                 cartPosition.y = (rideCenter.y - 1.0f) + rideRadius * sin(glm::radians(-cartAngles[i]));
                 cartPosition.z = rideCenter.z + rideRadius * cos(glm::radians(-cartAngles[i]));
+
+                ourShader.setVec3(base + ".position", cartPosition);
 
                 carts[i].setPosition(cartPosition);
             }
@@ -260,21 +262,21 @@ int main() {
 
         // Directional
         ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-        ourShader.setVec3("dirLight.ambient", 0.2f, 0.2f, 0.2f);
+        ourShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
         ourShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
         ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
         // Spotlight (Ride)
         ourShader.setVec3("spotLightRide.position", glm::vec3(15.0f, 10.0f, 0.0f));
-        ourShader.setVec3("spotLightRide.direction", glm::vec3(-1.0f, -1.0f, 0.0f));
+        ourShader.setVec3("spotLightRide.direction", glm::vec3(-0.5f, -1.0f, 0.0f));
         ourShader.setVec3("spotLightRide.ambient", 0.0f, 0.0f, 0.0f);
         ourShader.setVec3("spotLightRide.diffuse", 4.0f, 4.0f, 4.0f);
         ourShader.setVec3("spotLightRide.specular", 0.5f, 0.5f, 0.5f);
         ourShader.setFloat("spotLightRide.constant", 1.0f);
         ourShader.setFloat("spotLightRide.linear", 0.09f);
         ourShader.setFloat("spotLightRide.quadratic", 0.032f);
-        ourShader.setFloat("spotLightRide.cutOff", glm::cos(glm::radians(25.0f)));
-        ourShader.setFloat("spotLightRide.outerCutOff", glm::cos(glm::radians(30.0f)));
+        ourShader.setFloat("spotLightRide.cutOff", glm::cos(glm::radians(15.0f)));
+        ourShader.setFloat("spotLightRide.outerCutOff", glm::cos(glm::radians(20.0f)));
 
         // Spotlight (Torch)
         ourShader.setVec3("spotLightTorch.position", currentCamera->Position);

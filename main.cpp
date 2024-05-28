@@ -23,7 +23,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void zoom_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void processInput(GLFWwindow *window);
-void processPositions();
+void processPositions(vector<Model>&(carts));
 unsigned int loadTexture(const char *path);
 
 // Settings
@@ -219,7 +219,7 @@ int main() {
 
         // Input
         processInput(window);
-        processPositions();
+        processPositions(carts);
 
         // Background
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // Set clear colour
@@ -447,20 +447,22 @@ void processInput(GLFWwindow *window)
     }
 }
 
-void processPositions(){
+void processPositions(vector<Model>& carts){
     if(rideStart){
         // Ground Fixed Camera - LookAt
         FixedCamera* fixedPtr = dynamic_cast<FixedCamera*>(&fixedCamera);
 
         if(fixedPtr){
-            theta += deltaTime * rideSpeed;
+//            theta += deltaTime * rideSpeed;
+//
+//            glm::vec3 lookAt;
+//            lookAt.x = 0.0f;
+//            lookAt.y = (rideCenter.y - 1.0) + rideRadius * sin(glm::radians(-theta));
+//            lookAt.z = rideCenter.z + rideRadius * cos(glm::radians(-theta));
 
-            glm::vec3 lookAt;
-            lookAt.x = 0.0f;
-            lookAt.y = (rideCenter.y - 1.0) + rideRadius * sin(glm::radians(-theta));
-            lookAt.z = rideCenter.z + rideRadius * cos(glm::radians(-theta));
+            glm::vec3 lookAtPos = carts[0].getPosition();
 
-            fixedPtr->setLookAt(lookAt);
+            fixedPtr->setLookAt(lookAtPos);
         }
 
         // Ride Fixed Camera - Position

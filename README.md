@@ -1,4 +1,4 @@
-# My Awesome Project
+# Ferris Wheel in OpenGL
 This project was made for my university coursework, using OpenGL to create a fairground ride from scratch. 
 
 ![Cover Image](wheel.png)
